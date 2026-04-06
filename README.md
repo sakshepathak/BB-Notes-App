@@ -1,4 +1,4 @@
-# Bread and Butter [bb]
+# Bread and Butter [bb notes app]
 
 Bread and Butter is a simple and clean notes application designed to help you organize your thoughts without any extra fuss. The idea was to create a workspace that feels like a physical notebook but with the power of modern tools. It is minimalist and focus oriented so you can just write.
 
@@ -63,7 +63,7 @@ graph TD
 
 ## Demo Video
 
-[Add your demo video link or file here]
+[https://canva.link/vny8y2yj4x4myi3]
 
 ## License
 
