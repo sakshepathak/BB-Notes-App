@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bread and Butter [bb]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Bread and Butter - A clean, minimal notes application inspired by Notion.">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-box">bb</div>
+                    <span class="logo-text">Bread & Butter</span>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <i data-lucide="search" class="search-icon" style="width: 14px; height: 14px;"></i>
+                    <input type="text" id="search-input" placeholder="Search notes...">
+                </div>
+            </div>
+
+            <nav class="notes-list" id="notes-list">
+                <!-- Notes will be loaded here -->
+                <div class="loading-spinner">Loading notes...</div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="new-note-btn" class="ghost-btn" style="width: 100%; border-radius: 4px; justify-content: flex-start;">
+                    <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+                    New Note
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="empty-state" class="empty-state">
+                <div class="logo-box" style="width: 48px; height: 48px; font-size: 1.2rem; margin-bottom: 24px;">bb</div>
+                <h1>Welcome to your workspace</h1>
+                <p>Simple, clean, and everything you need to keep your thoughts organized.</p>
+                <button class="primary-btn" id="create-first-note">Create a new note</button>
+            </div>
+
+            <div id="editor-view" class="editor-view hidden">
+                <header class="editor-header">
+                    <div class="breadcrumb">
+                        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+                        <span>Notes</span>
+                        <span style="opacity: 0.5;">/</span>
+                        <span id="breadcrumb-title">Untitled</span>
+                    </div>
+                    <div class="editor-actions">
+                        <div id="save-status" class="save-status">
+                            <i data-lucide="check" style="width: 12px; height: 12px;"></i>
+                            Saved
+                        </div>
+                        <button id="summarize-btn" class="ghost-btn" title="Summarize this note">
+                            <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+                            Summarize
+                        </button>
+                        <button id="rewrite-btn" class="ghost-btn" title="Rewrite with AI">
+                            <i data-lucide="wand-2" style="width: 16px; height: 16px;"></i>
+                            Rewrite
+                        </button>
+                        <button id="undo-rewrite-btn" class="ghost-btn hidden" title="Undo rewrite">
+                            <i data-lucide="undo" style="width: 16px; height: 16px;"></i>
+                            Undo
+                        </button>
+                        <button id="delete-note-btn" class="ghost-btn danger" title="Delete note">
+                            <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+                            Delete
+                        </button>
+                    </div>
+                </header>
+
+                <div class="editor-toolbar">
+                    <button class="toolbar-btn" data-format="p" title="Normal Text">
+                        <span class="btn-text">Text</span>
+                    </button>
+                    <div class="toolbar-separator"></div>
+                    <button class="toolbar-btn" data-format="h1" title="Heading 1">
+                        <span class="btn-text">H1</span>
+                    </button>
+                    <button class="toolbar-btn" data-format="h2" title="Heading 2">
+                        <span class="btn-text">H2</span>
+                    </button>
+                    <div class="toolbar-separator"></div>
+                    <button class="toolbar-btn" data-format="bold" title="Bold (Ctrl+B)">
+                        <i data-lucide="bold" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <button class="toolbar-btn" data-format="italic" title="Italic (Ctrl+I)">
+                        <i data-lucide="italic" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <div class="toolbar-separator"></div>
+                    <button class="toolbar-btn" data-format="unorderedList" title="Bullet List">
+                        <i data-lucide="list" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <button class="toolbar-btn" data-format="orderedList" title="Numbered List">
+                        <i data-lucide="list-ordered" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <button class="toolbar-btn" data-format="checkbox" title="Checkbox">
+                        <i data-lucide="check-square" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <div class="toolbar-separator"></div>
+                    <!-- Highlights -->
+                    <div class="highlight-group">
+                        <button class="color-btn highlight-yellow" data-format="hiliteColor" data-value="#fff9c4" title="Yellow Highlight"></button>
+                        <button class="color-btn highlight-green" data-format="hiliteColor" data-value="#e8f5e9" title="Green Highlight"></button>
+                        <button class="color-btn highlight-blue" data-format="hiliteColor" data-value="#e3f2fd" title="Blue Highlight"></button>
+                        <button class="color-btn highlight-pink" data-format="hiliteColor" data-value="#fce4ec" title="Pink Highlight"></button>
+                        <button class="color-btn highlight-none" data-format="hiliteColor" data-value="transparent" title="Clear Highlight">
+                            <i data-lucide="type" style="width: 12px; height: 12px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="editor-container">
+                    <input type="text" id="note-title" class="note-title-input" placeholder="Untitled">
+                    <div id="note-content" class="note-content-area" contenteditable="true" placeholder="Start typing..."></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Summary Drawer -->
+        <div id="summary-drawer" class="summary-drawer">
+            <div class="summary-header">
+                <h3>Summary</h3>
+                <button id="close-summary" class="icon-btn">
+                    <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+            <div id="summary-content" class="summary-content">
+                <!-- Summary content goes here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirm Modal -->
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="confirm-title">Confirm Deletion</h3>
+            <p id="confirm-message">Are you sure you want to delete this note? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="confirm-cancel" class="ghost-btn">Cancel</button>
+                <button id="confirm-ok" class="primary-btn danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification system -->
+    <div id="notifications"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
